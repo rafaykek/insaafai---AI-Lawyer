@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Consultation Chat — {{ case.case_id }} — InsaafAI{% endblock %}
+
+{% block content %}
+<div class="chat-wrapper">
+    <div class="chat-container">
+        <!-- Sidebar with Case Context -->
+        <aside class="chat-sidebar">
+            <div class="sidebar-header">
+                <span class="case-badge">{{ case.case_id }}</span>
+                <h3>Case Overview</h3>
+            </div>
+            
+            <div class="sidebar-group">
+                <label>Customer</label>
+                <p class="val">{{ case.customer.name }}</p>
+            </div>
+
+            <div class="sidebar-group">
+                <label>Location & Jurisdiction</label>
+                <p class="val">{{ case.customer.location }}</p>
+                <p class="sub-val">{{ case.customer.jurisdiction }}</p>
+            </div>
+
+            <div class="sidebar-group">
+                <label>Consultancy</label>
+                <p class="val"><span class="type-pill-sm">{{ case.consultancy_type }}</span></p>
+            </div>
+
+            <div class="sidebar-group">
+                <label>Provided Documents ({{ case.documents|length }})</label>
+                <ul class="sidebar-doc-list">
+                    {% for doc in case.documents %}
+                        <li>📄 {{ doc.filename }}</li>
+                    {% else %}
+                        <li class="empty-doc">No documents uploaded</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <section class="chat-main">
+            <div class="chat-header">
+                <div class="consultant-info">
+                    <div class="avatar">⚖️</div>
+                    <div>
+                        <h2 class="consultant-name">Asad</h2>
+                        <span class="consultant-title">AI Legal Consultant</span>
+                    </div>
+                </div>
+                <div class="chat-case-tag">{{ case.case_id }}</div>
+            </div>
+
+            <!-- Messages Stream -->
+            <div id="chat-messages" class="chat-messages">
+                {% for msg in messages %}
+                    <div class="message-row {{ 'user-row' if msg.role == 'user' else 'assistant-row' }}">
+                        {% if msg.role == 'assistant' %}
+                            <div class="msg-avatar">⚖️</div>
+                        {% endif %}
+                        <div class="message-bubble {{ msg.role }}">
+                            {% if msg.role == 'assistant' %}
+                                <div class="sender-label">Asad</div>
+                            {% else %}
+                                <div class="sender-label">{{ case.customer.name }}</div>
+                            {% endif %}
+                            <div class="msg-content">{{ msg.content }}</div>
+                            <div class="msg-time">{{ msg.created_at.strftime('%H:%M') }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Input Form -->
+            <div class="chat-input-area">
+                <form id="chat-form" action="{{ url_for('chat.send_message', case_id=case.case_id) }}" method="POST">
+                    <div class="input-wrapper">
+                        <textarea id="chat-input" name="content" placeholder="Ask Asad a question about your case..." rows="1" required></textarea>
+                        <button type="submit" id="send-btn" class="btn btn-primary btn-send">
+                            <span>Send</span> ➔
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    window.CASE_ID = "{{ case.case_id }}";
+    window.CUSTOMER_NAME = "{{ case.customer.name }}";
+</script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}

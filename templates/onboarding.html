@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}Book AI Consultancy — InsaafAI{% endblock %}
+
+{% block content %}
+<div class="container form-page-container">
+    <div class="form-card">
+        <div class="form-header">
+            <h2>Book AI Consultancy</h2>
+            <p>Please provide your details and upload case documentation to get started.</p>
+        </div>
+
+        <form action="{{ url_for('consultation.onboarding') }}" method="POST" enctype="multipart/form-data" class="onboarding-form">
+            <div class="form-group">
+                <label for="name">Full Name <span class="required">*</span></label>
+                <input type="text" id="name" name="name" placeholder="e.g. Muhammad Ali" required class="form-input">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="location">Location <span class="required">*</span></label>
+                    <input type="text" id="location" name="location" placeholder="e.g. Karachi" required class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label for="jurisdiction">Judiciary / Jurisdiction <span class="required">*</span></label>
+                    <input type="text" id="jurisdiction" name="jurisdiction" placeholder="e.g. Pakistan — Sindh" required class="form-input">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="consultancy_type">Type of Consultancy <span class="required">*</span></label>
+                <select id="consultancy_type" name="consultancy_type" required class="form-input">
+                    <option value="" disabled selected>Select consultancy type...</option>
+                    <option value="Property / Tenancy">Property / Tenancy</option>
+                    <option value="Employment & Labor">Employment & Labor</option>
+                    <option value="Contract & Business">Contract & Business</option>
+                    <option value="Family Law">Family Law</option>
+                    <option value="Consumer Protection">Consumer Protection</option>
+                    <option value="General Legal Advice">General Legal Advice</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="problem_description">Brief Description of the Problem <span class="required">*</span></label>
+                <textarea id="problem_description" name="problem_description" rows="4" placeholder="e.g. My landlord has not returned my security deposit despite ending the lease on agreed terms." required class="form-input"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="documents">Upload Case Documents (PDF, DOCX, TXT, PNG, JPG)</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="documents" name="documents" multiple accept=".pdf,.docx,.txt,.png,.jpg,.jpeg" class="file-input">
+                    <div class="file-upload-box">
+                        <span class="upload-icon">📁</span>
+                        <p>Click to select files or drag & drop documents here</p>
+                        <span class="file-hint">Supported: PDF, DOCX, TXT, PNG, JPG, JPEG (Max 16MB total)</span>
+                    </div>
+                </div>
+                <div id="file-list-preview" class="file-list-preview"></div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-block">Create Case & Proceed</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('documents');
+    const previewContainer = document.getElementById('file-list-preview');
+
+    fileInput.addEventListener('change', () => {
+        previewContainer.innerHTML = '';
+        const files = Array.from(fileInput.files);
+        
+        if (files.length === 0) return;
+
+        const heading = document.createElement('p');
+        heading.className = 'preview-title';
+        heading.textContent = `Selected Documents (${files.length}):`;
+        previewContainer.appendChild(heading);
+
+        files.forEach(file => {
+            const tag = document.createElement('div');
+            tag.className = 'file-preview-tag';
+            tag.innerHTML = `📄 <span>${file.name}</span> <small>(${(file.size/1024).toFixed(1)} KB)</small>`;
+            previewContainer.appendChild(tag);
+        });
+    });
+});
+</script>
+{% endblock %}

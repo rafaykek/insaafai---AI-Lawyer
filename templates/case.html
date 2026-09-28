@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Case Summary — {{ case.case_id }} — InsaafAI{% endblock %}
+
+{% block content %}
+<div class="container page-container">
+    <div class="case-summary-card">
+        <div class="case-header">
+            <div>
+                <span class="case-badge">{{ case.case_id }}</span>
+                <h1 class="case-title">Case Summary</h1>
+            </div>
+            <div class="case-date">Created: {{ case.created_at.strftime('%B %d, %Y') }}</div>
+        </div>
+
+        <div class="case-grid">
+            <div class="case-info-block">
+                <span class="info-label">Customer Name</span>
+                <div class="info-value">{{ case.customer.name }}</div>
+            </div>
+
+            <div class="case-info-block">
+                <span class="info-label">Location</span>
+                <div class="info-value">{{ case.customer.location }}</div>
+            </div>
+
+            <div class="case-info-block">
+                <span class="info-label">Jurisdiction</span>
+                <div class="info-value">{{ case.customer.jurisdiction }}</div>
+            </div>
+
+            <div class="case-info-block">
+                <span class="info-label">Consultancy Type</span>
+                <div class="info-value"><span class="type-pill">{{ case.consultancy_type }}</span></div>
+            </div>
+        </div>
+
+        <div class="case-section">
+            <h3 class="section-title">Problem Description</h3>
+            <div class="problem-box">
+                <p>{{ case.problem_description }}</p>
+            </div>
+        </div>
+
+        <div class="case-section">
+            <h3 class="section-title">Uploaded Case Documents</h3>
+            {% if case.documents %}
+                <ul class="document-list">
+                    {% for doc in case.documents %}
+                        <li class="document-item">
+                            <span class="doc-check">✓</span>
+                            <span class="doc-icon">📄</span>
+                            <span class="doc-name">{{ doc.filename }}</span>
+                            <span class="doc-date">Uploaded {{ doc.uploaded_at.strftime('%b %d, %H:%M') }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="empty-docs">No documents were uploaded for this case.</p>
+            {% endif %}
+        </div>
+
+        <div class="case-actions">
+            <a href="{{ url_for('chat.chat_view', case_id=case.case_id) }}" class="btn btn-primary btn-large">
+                Start Consultation with Asad <span class="arrow">→</span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

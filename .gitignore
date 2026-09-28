@@ -1,0 +1,27 @@
+# Environment variables
+.env
+*.env
+
+# SQLite Database & Instance folder
+instance/
+*.db
+*.sqlite3
+
+# Uploaded case documents
+uploads/
+sample_docs/
+sample_docs_*/
+
+# Python cache & virtualenv
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+venv/
+.venv/
+env/
+
+# Scratch & temporary logs
+scratch/
+*.log

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}InsaafAI — Modern AI Legal Consultancy{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-container">
+        <div class="hero-badge">AI-Powered Legal Consultancy</div>
+        <h1 class="hero-title">Intelligent Legal Insights & Case Analysis at Scale</h1>
+        <p class="hero-subtitle">
+            Upload legal agreements, tenancy contracts, or dispute documentation. Get instant, structured 
+            consultation powered by Asad, your AI Legal Consultant.
+        </p>
+        <div class="hero-actions">
+            <a href="{{ url_for('consultation.onboarding') }}" class="btn btn-primary btn-large">
+                Book AI Consultancy <span class="arrow">→</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <div class="section-header">
+            <h2>Comprehensive Legal Support Platform</h2>
+            <p>Built to streamline customer onboarding, document intake, and case evaluation.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📄</div>
+                <h3>Legal Document Analysis</h3>
+                <p>Securely upload lease contracts, receipts, notices, and legal correspondence for analysis.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚖️</div>
+                <h3>Case Understanding</h3>
+                <p>Customized analysis aligned with local jurisdiction and judiciary context.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>Legal Research Support</h3>
+                <p>Structured legal evaluation tailored to your specific dispute and requirements.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Consultation Support</h3>
+                <p>Interactive consultation chat session with Asad, your dedicated AI legal assistant.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Secure Document Upload</h3>
+                <p>ISO-standard isolation per case ensuring document confidentiality and privacy.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📁</div>
+                <h3>Instant Case Tracking</h3>
+                <p>Unique Case ID generated automatically to manage case history and uploads seamlessly.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-banner">
+    <div class="container cta-container">
+        <h2>Ready to examine your legal case?</h2>
+        <p>Get started in minutes with our guided onboarding flow.</p>
+        <a href="{{ url_for('consultation.onboarding') }}" class="btn btn-primary btn-large">
+            Book AI Consultancy
+        </a>
+    </div>
+</section>
+{% endblock %}
